@@ -127,6 +127,58 @@
          font-weight: lighter;
          font-size: 12px;
       }
+
+      /* === MOBILE FIRST === */
+      @media (max-width: 768px) {
+         body {
+            overflow-x: hidden;
+            font-size: 15px;
+         }
+
+         #game {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+         }
+
+         #turnInfo {
+            font-size: 14px;
+            margin-bottom: 8px;
+            opacity: 0.85;
+         }
+
+         #board {
+            width: 90vw;
+            height: 90vw;
+            max-width: 360px;
+            max-height: 360px;
+            touch-action: manipulation;
+         }
+
+         .cell {
+            font-size: 22px;
+         }
+
+         #controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+         }
+
+         button {
+            padding: 10px 14px;
+            font-size: 14px;
+            border-radius: 10px;
+         }
+
+         #chronicle {
+            margin-top: 10px;
+            font-size: 13px;
+            opacity: 0.75;
+            text-align: center;
+         }
+      }
    </style>
 </head>
 
@@ -357,10 +409,13 @@
          là kết thúc. <br>
 
          <p>Hòa khi</p>
-         <p>Hai vua cùng tồn tại: Nếu sau khi các quân khác bị loại bỏ, cả hai bên chỉ còn lại vua, ván cờ được xem là hòa.
-         Trong shatranj, hai vị vua không thể tự mình tạo ra thế chiếu hợp lệ, và trạng thái này được coi là sự cân bằng
-         tuyệt đối, không bên nào có thể buộc bên kia chịu shāh māt. Trong một số truyền thống thì zindān cũng được tính
-         là hòa</p>
+         <p>Hai vua cùng tồn tại: Nếu sau khi các quân khác bị loại bỏ, cả hai bên chỉ còn lại vua, ván cờ được xem là
+            hòa.
+            Trong shatranj, hai vị vua không thể tự mình tạo ra thế chiếu hợp lệ, và trạng thái này được coi là sự cân
+            bằng
+            tuyệt đối, không bên nào có thể buộc bên kia chịu shāh māt. Trong một số truyền thống thì zindān cũng được
+            tính
+            là hòa</p>
 
          <h2>Tinh thần của Shatranj</h2>
 
