@@ -3,6 +3,7 @@
 
 <head>
    <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Shatranj</title>
 
    <style>
@@ -304,6 +305,10 @@
          opacity: 1;
       }
 
+      .turtorialtowin {
+         margin-left: 10px;
+      }
+
       .rule {
          color: yellow;
       }
@@ -370,48 +375,146 @@
             0 0 14px rgb(255, 105, 105);
       }
 
-      /* === MOBILE FIRST === */
+      /* =========================
+   MOBILE LAYOUT
+   ========================= */
       @media (max-width: 768px) {
 
-         /* BẺ THẲNG LAYOUT */
          body {
-            display: flex;
-            justify-content: center;
+            align-items: center;
+            text-align: center;
          }
 
          #layout {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            width: 100% !important;
-            min-width: 0 !important;
+            flex-direction: column;
+            gap: 18px;
+            align-items: center;
          }
 
-         /* KHAI TỬ PANEL */
+         /* ==== BOARD ==== */
+
+
+
+         .square {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+
+         }
+
+         img {
+            width: 100%;
+            height: 100%;
+         }
+
+         /* ==== PANELS ==== */
          #left-panel,
          #right-panel {
-            display: none !important;
+            width: 100%;
+            max-width: 100%;
+            flex-direction: column;
+            align-items: center;
          }
 
-         /* GAME CHỈ CÒN BOARD */
+
+         #left-panel {
+            order: 2;
+            gap: 16px;
+         }
+
+         #right-panel {
+            order: 3;
+            gap: 12px;
+         }
+
+         /* ==== TURN ==== */
+         #left-panel {
+            order: 1;
+            width: 92%;
+            max-width: 420px;
+         }
+
+         /* BÀN CỜ Ở GIỮA */
          #game {
+            order: 2;
             width: 100%;
             display: flex;
             justify-content: center;
          }
 
-         #board {
-            width: 94vw;
-            height: 94vw;
-            max-width: 360px;
-            max-height: 360px;
+         /* CONTROLS XUỐNG DƯỚI */
+         #controls {
+            order: 3;
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
          }
 
-         /* TURN TEXT KHÔNG ĐƯỢC LANG THANG */
-         #turnIndicator {
-            position: static !important;
-            margin: 8px 0;
+         .control-btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+         }
+
+         .turtorialtowin {
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+         }
+
+         #shahAlert {
+            font-size: 28px;
+            margin-bottom: 10px;
+            order: 2;
+         }
+
+         /* ==== HISTORY ==== */
+         #turnIndicator{
             text-align: center;
+            margin-bottom: 20px;
+         }
+
+         #history {
+            width: 92%;
+            max-height: 200px;
+            margin-bottom: 50px;
+            text-align: center;
+         }
+
+         #history h3 {
+            font-size: 18px;
+            text-align: center;
+         }
+
+         #historyList {
+            max-height: 120px;
+         }
+
+         #turnIndicator{
+            margin-bottom: 20px;
+         }
+
+         /* ==== RULES ==== */
+
+         /* ==== TOOLTIP ==== */
+         .piece-tooltip {
+            left: auto;
+            right: 0;
+            bottom: 110%;
+            font-size: 12px;
+         }
+
+         /* ==== HOVER HINT ==== */
+         #hoverHint {
+            display: none;
+         }
+
+         #game {
+            width: 100%;
+            display: flex;
+            justify-content: center;
          }
       }
    </style>
