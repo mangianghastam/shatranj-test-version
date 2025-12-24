@@ -393,7 +393,9 @@
 
          /* ==== BOARD ==== */
 
-
+         #board{
+            margin-left: 20px;
+         }
 
          .square {
             width: 100%;
@@ -471,7 +473,7 @@
          }
 
          /* ==== HISTORY ==== */
-         #turnIndicator{
+         #turnIndicator {
             text-align: center;
             margin-bottom: 20px;
          }
@@ -489,10 +491,11 @@
          }
 
          #historyList {
-            max-height: 120px;
+            max-height: 50px;
+            padding: 0px 10px;
          }
 
-         #turnIndicator{
+         #turnIndicator {
             margin-bottom: 20px;
          }
 
@@ -819,8 +822,8 @@
                draw();
                return;
             }
-            saveHistory();
             turn = enemy;
+            saveHistory();
             updateTurnIndicator();
 
             const capture = board[tr][tc] !== null;
