@@ -373,21 +373,27 @@
       /* === MOBILE FIRST === */
       @media (max-width: 768px) {
 
-         /* === BẺ LAYOUT NGANG === */
-         #layout {
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            min-width: unset;
+         /* BẺ THẲNG LAYOUT */
+         body {
+            display: flex;
+            justify-content: center;
          }
 
-         /* === ẨN PANEL PHỤ === */
+         #layout {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            width: 100% !important;
+            min-width: 0 !important;
+         }
+
+         /* KHAI TỬ PANEL */
          #left-panel,
          #right-panel {
-            display: none;
+            display: none !important;
          }
 
-         /* === BOARD LÀ TRUNG TÂM === */
+         /* GAME CHỈ CÒN BOARD */
          #game {
             width: 100%;
             display: flex;
@@ -395,10 +401,17 @@
          }
 
          #board {
-            width: 92vw;
-            height: 92vw;
+            width: 94vw;
+            height: 94vw;
             max-width: 360px;
             max-height: 360px;
+         }
+
+         /* TURN TEXT KHÔNG ĐƯỢC LANG THANG */
+         #turnIndicator {
+            position: static !important;
+            margin: 8px 0;
+            text-align: center;
          }
       }
    </style>
