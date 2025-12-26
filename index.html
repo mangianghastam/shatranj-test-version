@@ -119,12 +119,16 @@
 
       #endgame.blue span {
          color: blue;
-         text-shadow: 0 0 18px rgba(0, 0, 255);
+         text-shadow:
+            0 0 6px rgb(31, 31, 255),
+            0 0 14px rgb(101, 101, 255);
       }
 
       #endgame.red span {
          color: red;
-         text-shadow: 0 0 18px rgba(255, 0, 0);
+         text-shadow:
+            0 0 6px rgb(255, 41, 41),
+            0 0 14px rgb(255, 105, 105);
       }
 
       #controls {
@@ -488,6 +492,11 @@
          #hoverHint {
             position: absolute;
             bottom: 150px;
+         }
+
+         #endgame span {
+            font-size: 20px;
+            text-align: center;
          }
       }
    </style>
