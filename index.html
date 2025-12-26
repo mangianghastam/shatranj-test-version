@@ -380,34 +380,61 @@
    ========================= */
       @media (max-width: 768px) {
 
+         html,
          body {
-            align-items: center;
-            text-align: center;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
          }
 
          #layout {
             flex-direction: column;
-            gap: 18px;
             align-items: center;
+            gap: 16px;
+            min-width: 0;
+            /* 🔥 cực quan trọng */
          }
 
-         /* ==== BOARD ==== */
+         #left-panel {
+            width: 100%;
+            max-width: 420px;
+            gap: 12px;
+         }
+
+         #turnIndicator {
+            margin-bottom: 0;
+            text-align: center;
+         }
+
+         #shahAlert {
+            margin-bottom: 6px;
+         }
+
+         #controls {
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+         }
+
+         .control-btn {
+            max-width: 48%;
+            font-size: 14px;
+         }
+
+         #game {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+         }
 
          #board {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            grid-auto-rows: 1fr;
-            width: 90vw;
+            width: 92vw;
             max-width: 360px;
             aspect-ratio: 1 / 1;
-            margin: 0 auto;
          }
 
          .square {
-            width: 100%;
-            height: 100%;
             aspect-ratio: 1 / 1;
-
          }
 
          img {
@@ -415,115 +442,36 @@
             height: 100%;
          }
 
-         /* ==== PANELS ==== */
-         #left-panel,
          #right-panel {
             width: 100%;
-            max-width: 100%;
-            flex-direction: column;
-            align-items: center;
-         }
-
-
-         #left-panel {
-            order: 2;
-            gap: 16px;
-         }
-
-         #right-panel {
-            order: 3;
-            gap: 12px;
-         }
-
-         /* ==== TURN ==== */
-         #left-panel {
-            order: 1;
-            width: 92%;
             max-width: 420px;
          }
 
-         /* BÀN CỜ Ở GIỮA */
-         #game {
-            order: 2;
+         #history {
             width: 100%;
-            display: flex;
-            justify-content: center;
+            max-height: none;
+            margin-bottom: 16px;
          }
 
-         /* CONTROLS XUỐNG DƯỚI */
-         #controls {
-            order: 3;
-            flex-direction: row;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 8px;
-         }
-
-         .control-btn {
-            padding: 8px 12px;
-            font-size: 14px;
-            border-radius: 8px;
+         #historyList {
+            max-height: none;
          }
 
          .turtorialtowin {
             font-size: 14px;
             line-height: 1.5;
-            text-align: left;
          }
 
-         #shahAlert {
-            font-size: 28px;
-            margin-bottom: 10px;
-            order: 2;
-         }
-
-         /* ==== HISTORY ==== */
-         #turnIndicator {
-            text-align: center;
-            margin-bottom: 20px;
-         }
-
-         #history {
-            width: 92%;
-            max-height: 200px;
-            margin-bottom: 50px;
-            text-align: center;
-         }
-
-         #history h3 {
-            font-size: 18px;
-            text-align: center;
-         }
-
-         #historyList {
-            max-height: 50px;
-            padding: 0px 10px;
-         }
-
-         #turnIndicator {
-            margin-bottom: 20px;
-         }
-
-         /* ==== RULES ==== */
-
-         /* ==== TOOLTIP ==== */
-         .piece-tooltip {
-            left: auto;
-            right: 0;
-            bottom: 110%;
-            font-size: 12px;
-         }
-
-         /* ==== HOVER HINT ==== */
          #hoverHint {
             display: none;
          }
 
-         #game {
-            width: 100%;
-            display: flex;
-            justify-content: center;
+         .piece-tooltip {
+            max-width: 220px;
+            white-space: normal;
+            right: 0;
+            left: auto;
+            bottom: 110%;
          }
       }
    </style>
