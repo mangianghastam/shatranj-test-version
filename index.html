@@ -473,7 +473,7 @@
          }
 
          .piece-tooltip {
-            font-size: 8px;
+            font-size: 6px;
             /* 🔥 nhỏ hơn */
             padding: 2px 3px;
             /* gọn lại */
@@ -487,6 +487,15 @@
 
             transform: translateY(-4px);
             /* hơi nhấc lên cho đỡ đè */
+         }
+
+         .red-piece {
+            transform: rotate(180deg);
+         }
+
+         /* Tooltip quay lại cho dễ đọc */
+         .piece-tooltip {
+            transform: translateY(-4px);
          }
 
          #hoverHint {
@@ -593,7 +602,7 @@
 
          const INITIAL_BOARD = deepCopyBoard(board);
 
-         const BGM = new Audio("sounds/bgm.mp3");
+         const BGM = new Audio("sounds/bgm.mp4");
 
          function draw() {
             boardEl.innerHTML = "";
@@ -607,6 +616,10 @@
                   if (piece) {
                      const wrapper = document.createElement("div");
                      wrapper.className = "piece";
+
+                     if (piece.color === "red") {
+                        wrapper.classList.add("red-piece");
+                     }
 
                      const img = document.createElement("img");
                      img.src = PIECE_IMG(piece.color, piece.type);
