@@ -541,6 +541,7 @@
             <button class="control-btn" onclick="undo()">⟲ Undo</button>
             <button class="control-btn" onclick="redo()">⟳ Redo</button>
             <button class="control-btn reset" onclick="resetGame()">⟲ Reset</button>
+            <button class="control-btn" onclick="toggleBGM()">🔇 Music</button>
          </div>
          <div class="turtorialtowin">
             <section>
@@ -619,6 +620,8 @@
 
          const INITIAL_BOARD = deepCopyBoard(board);
 
+         const BGM = new Audio("sounds/bgm.mp3");
+
          function draw() {
             boardEl.innerHTML = "";
 
@@ -670,19 +673,23 @@
             );
          }
 
-         function saveHistory() {
+         let ply = 0;
+
+         function saveHistory(note = null) {
             history = history.slice(0, historyIndex + 1);
 
             history.push({
+               ply: ++ply,
                board: deepCopyBoard(board),
                turn,
                lastChance,
-               moveLog: [...moveLog]
+               moveLog: [...moveLog],
+               note,
+               gameOver
             });
 
             historyIndex++;
          }
-
          function moveNotation(piece, sr, sc, tr, tc, capture) {
             const file = "abcdefgh";
             return `${piece.type[0].toUpperCase()}${file[sc]}${8 - sr} → ${file[tc]}${8 - tr}${capture ? "×" : ""}`;
@@ -712,12 +719,27 @@
             draw();
          }
 
+         let bgmEnabled = false;
 
+         const musicBtn = document.querySelector(
+            ".control-btn[onclick='toggleBGM()']"
+         );
+
+         function toggleBGM() {
+            bgmEnabled = !bgmEnabled;
+
+            if (bgmEnabled) {
+               musicBtn.textContent = "🎵 Music";
+               BGM.play().catch(() => { });
+            } else {
+               musicBtn.textContent = "🔇 Music";
+               BGM.pause();
+            }
+         }
 
 
          function clickSquare(r, c) {
             const piece = board[r][c];
-
             if (gameOver) return;
             if (!selected) {
                if (piece && piece.color === turn) {
@@ -736,17 +758,18 @@
                draw();
             }
          }
+
          function move(sr, sc, tr, tc) {
 
             const piece = board[sr][sc];
             const enemy = piece.color === "blue" ? "red" : "blue";
             const target = board[tr][tc];
+            saveHistory();
             if (target) {
                playSFX("capture", 0.5);
             } else {
                playSFX("move", 0.35);
             }
-
 
             // ===== NƯỚC CUỐI CỦA SHĀH TANHĀ =====
             if (lastChance === piece.color) {
@@ -755,8 +778,6 @@
                board[tr][tc] = piece;
                board[sr][sc] = null;
                lastChance = null;
-
-               saveHistory();        // 🔥 BẮT BUỘC
                selected = null;
 
 
@@ -829,16 +850,16 @@
                return;
             }
             turn = enemy;
-            saveHistory();
             updateTurnIndicator();
 
-            const capture = board[tr][tc] !== null;
+            const capture = target !== null;
             moveLog.push(
                shatranjNotation(piece, sr, sc, tr, tc, capture)
             );
 
             updateHistory();
          }
+
 
          function updateHistory() {
             const list = document.getElementById("historyList");
@@ -849,7 +870,6 @@
                list.appendChild(li);
             });
          }
-
 
          function undo() {
             if (historyIndex <= 0) return;
@@ -1221,6 +1241,7 @@
             }
          }
 
+
          const SFX = {
             select: new Audio("sounds/select.mp4"),
             move: new Audio("sounds/move.mp4"),
@@ -1230,7 +1251,11 @@
             draw: new Audio("sounds/draw.mp4"),
          };
 
+         BGM.loop = true;
+         BGM.volume = 0.3;
+
          let soundEnabled = true;
+         let bgmStarted = false;
 
          function playSFX(name, volume = 1) {
             if (!soundEnabled) return;
