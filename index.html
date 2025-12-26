@@ -399,6 +399,7 @@
             width: 100%;
             max-width: 420px;
             gap: 12px;
+            align-items: center;
          }
 
          #turnIndicator {
@@ -411,8 +412,12 @@
          }
 
          #controls {
+            display: flex;
+            flex-direction: row;
             flex-wrap: wrap;
+            /* 🔥 tự xuống dòng */
             justify-content: center;
+            gap: 8px;
             width: 100%;
          }
 
@@ -427,51 +432,41 @@
             justify-content: center;
          }
 
+         :root {
+            --cell-size: min(10vw, 44px);
+         }
+
          #board {
-            width: 92vw;
-            max-width: 360px;
-            aspect-ratio: 1 / 1;
+            grid-template-columns: repeat(8, var(--cell-size));
+            grid-template-rows: repeat(8, var(--cell-size));
          }
 
          .square {
-            aspect-ratio: 1 / 1;
+            width: var(--cell-size);
+            height: var(--cell-size);
+            display: flex;
+            justify-content: center;
+            align-items: center;
          }
 
-         img {
+         .piece {
             width: 100%;
             height: 100%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
          }
 
-         #right-panel {
-            width: 100%;
-            max-width: 420px;
-         }
-
-         #history {
-            width: 100%;
-            max-height: none;
-            margin-bottom: 16px;
-         }
-
-         #historyList {
-            max-height: none;
-         }
-
-         .turtorialtowin {
-            font-size: 14px;
-            line-height: 1.5;
+         .piece img {
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
          }
 
          #hoverHint {
-            display: none;
-         }
-
-         .piece-tooltip {
-            max-width: 220px;
-            white-space: normal;
-            right: 0;
-            left: auto;
-            bottom: 110%;
+            position: absolute;
+            bottom: 150px;
          }
       }
    </style>
