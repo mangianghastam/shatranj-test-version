@@ -172,7 +172,7 @@
 
       #history {
          position: static;
-         margin-bottom: 200px;
+         margin-bottom: 50px;
          top: 50%;
          width: 260px;
          max-height: 70vh;
@@ -341,6 +341,10 @@
          animation: pulse 0.8s ease-in-out infinite alternate;
       }
 
+      #right-panel .control-btn {
+         margin-bottom: 80px;
+      }
+
       @keyframes pulse {
          from {
             box-shadow: inset 0 0 0 3px crimson;
@@ -500,12 +504,20 @@
 
          #hoverHint {
             position: absolute;
-            bottom: 150px;
+            bottom: 450px;
          }
 
          #endgame span {
             font-size: 20px;
             text-align: center;
+         }
+
+         #right-panel .control-btn {
+            margin-bottom: 500px;
+         }
+
+         .history {
+            margin-bottom: auto;
          }
       }
    </style>
@@ -563,6 +575,10 @@
             <ol id="historyList"></ol>
          </div>
 
+         <button class="control-btn" onclick="setLang('vi')">VI</button>
+         <button class="control-btn" onclick="setLang('en')">EN</button>
+         <button class="control-btn" onclick="setLang('fa')">FA</button>
+
          <div id="hoverHint">
             ℹ️ Di chuột lên quân cờ để xem tên và cách di chuyển
          </div>
@@ -586,6 +602,8 @@
          let history = [];
          let historyIndex = -1;
          let moveLog = [];
+         let LANG = "vi";
+         // "vi" | "en" | "fa"
 
 
          /*
@@ -603,6 +621,96 @@
          const INITIAL_BOARD = deepCopyBoard(board);
 
          const BGM = new Audio("sounds/bgm.mp4");
+
+         const I18N = {
+            vi: {
+               turnBlue: "LƯỢT XANH",
+               turnRed: "LƯỢT ĐỎ",
+               codex: "📜 Codex",
+               undo: "⟲ Hoàn tác",
+               redo: "⟳ Quay lại",
+               reset: "⟲ Ván mới",
+               musicOn: "🎵 Nhạc",
+               musicOff: "🔇 Nhạc",
+               chronicle: "📜 Biên sử",
+               hoverHint: "ℹ️ Di chuột lên quân cờ để xem tên và cách di chuyển",
+               rules: {
+                  shah: "Shāh — Vua bị chiếu.",
+                  shahMat: "Shāh Māt — Vua không thể thoát chiếu.",
+                  shahTanha: "Shāh Tanhā — Vua đơn độc. Được đi một nước cuối.",
+                  zindan: "Zindān — Hết nước đi. Bị xử thua.",
+                  doShah: "Do Shāh — Chỉ còn hai vua. Hòa."
+               }
+            },
+
+            en: {
+               turnBlue: "BLUE TO MOVE",
+               turnRed: "RED TO MOVE",
+               codex: "📜 Codex",
+               undo: "⟲ Undo",
+               redo: "⟳ Redo",
+               reset: "⟲ Reset",
+               musicOn: "🎵 Music",
+               musicOff: "🔇 Music",
+               chronicle: "📜 Chronicle",
+               hoverHint: "ℹ️ Hover over a piece to see its name and movement",
+               rules: {
+                  shah: "Shāh — The king is in check.",
+                  shahMat: "Shāh Māt — The king cannot escape check.",
+                  shahTanha: "Shāh Tanhā — Lone king. One final move allowed.",
+                  zindan: "Zindān — No legal moves. Defeat.",
+                  doShah: "Do Shāh — Only two kings remain. Draw."
+               }
+            },
+
+            fa: {
+               turnBlue: "نوبت آبی",
+               turnRed: "نوبت سرخ",
+               codex: "📜 نسخه",
+               undo: "⟲ بازگشت",
+               redo: "⟳ انجام دوباره",
+               reset: "⟲ شروع دوباره",
+               musicOn: "🎵 موسیقی",
+               musicOff: "🔇 بی‌صدا",
+               chronicle: "📜 سالنامه",
+               hoverHint: "ℹ️ برای دیدن نام و حرکت مهره، روی آن بروید",
+               rules: {
+                  shah: "شاه — پادشاه در کیش است.",
+                  shahMat: "شاه مات — راه گریزی وجود ندارد.",
+                  shahTanha: "شاه تنها — یک حرکت پایانی مجاز است.",
+                  zindan: "زندان — حرکت قانونی وجود ندارد.",
+                  doShah: "دو شاه — بازی مساوی است."
+               }
+            }
+         };
+
+         function applyLanguage() {
+            const T = I18N[LANG];
+
+            document.querySelector(".control-btn[onclick*='codex']").textContent = T.codex;
+            document.querySelector(".control-btn[onclick='undo()']").textContent = T.undo;
+            document.querySelector(".control-btn[onclick='redo()']").textContent = T.redo;
+            document.querySelector(".control-btn.reset").textContent = T.reset;
+
+            document.querySelector("#history h3").textContent = T.chronicle;
+            document.getElementById("hoverHint").textContent = T.hoverHint;
+
+            const rules = document.querySelectorAll(".rule");
+            rules[0].textContent = T.rules.shah;
+            rules[1].textContent = T.rules.shahMat;
+            rules[2].textContent = T.rules.shahTanha;
+            rules[3].textContent = T.rules.zindan;
+            rules[4].textContent = T.rules.doShah;
+
+            updateTurnIndicator();
+            updateMusicButton(); // 🔥 QUAN TRỌNG
+         }
+
+         function setLang(lang) {
+            LANG = lang;
+            applyLanguage(); // 🔥 đổi toàn bộ UI ngoài bàn cờ
+            draw();          // 🔥 đổi tooltip + bàn cờ
+         }
 
          function draw() {
             boardEl.innerHTML = "";
@@ -642,15 +750,39 @@
 
          function getPieceInfo(piece) {
             const info = {
-               shah: "Shāh (Vua)<br>Đi 1 ô mọi hướng<br>Bị chiếu không được bỏ qua",
-               farzin: "Farzīn (Tể tướng)<br>Đi chéo 1 ô",
-               rukh: "Rukh (Xe)<br>Đi thẳng ngang dọc",
-               faras: "Faras / Asb (Mã)<br>Đi chữ L<br>Không bị cản",
-               fil: "Pīl (Tượng)<br>Đi chéo đúng 2 ô<br>Không bị cản",
-               baidaq: "Baidaq / Sarbaz / Piyadeh (Tốt)<br>Đi thẳng 1 ô<br>Ăn chéo 1 ô<br>Đến cuối bàn cờ phong farzin"
+               shah: {
+                  vi: "Shāh (Vua)<br>Đi 1 ô mọi hướng<br>Bị chiếu không được bỏ qua",
+                  en: "Shāh (King)<br>Moves 1 square in any direction<br>Cannot ignore check",
+                  fa: "شاه (Shāh)<br>حرکت یک خانه در همه جهت‌ها<br>نمی‌تواند کیش را نادیده بگیرد"
+               },
+               farzin: {
+                  vi: "Farzīn (Tể tướng)<br>Đi chéo 1 ô",
+                  en: "Farzīn (Counselor)<br>Moves 1 square diagonally",
+                  fa: "فرزین (وزیر)<br>حرکت یک خانه مورب"
+               },
+               rukh: {
+                  vi: "Rukh (Xe)<br>Đi ngang và dọc",
+                  en: "Rukh (Chariot)<br>Moves horizontally and vertically",
+                  fa: "رخ (Rukh)<br>حرکت افقی و عمودی"
+               },
+               faras: {
+                  vi: "Faras / Asb (Mã)<br>Đi chữ L<br>Không bị cản",
+                  en: "Faras (Horse)<br>L-shaped move<br>Can jump over pieces",
+                  fa: "فرس / اسب (اسب)<br>حرکت L شکل<br>از روی مهره‌ها می‌پرد"
+               },
+               fil: {
+                  vi: "Pīl (Tượng)<br>Đi chéo đúng 2 ô<br>Không bị cản",
+                  en: "Fīl (Elephant)<br>Moves exactly 2 squares diagonally<br>Cannot be blocked",
+                  fa: "فیل (Pīl)<br>حرکت دقیقاً دو خانه مورب<br>غیرقابل سد"
+               },
+               baidaq: {
+                  vi: "Baidaq (Tốt)<br>Đi thẳng 1 ô<br>Ăn chéo 1 ô<br>Phong Farzīn",
+                  en: "Baidaq (Pawn)<br>Moves 1 square forward<br>Captures diagonally<br>Promotes to Farzīn",
+                  fa: "بیدق (سرباز)<br>حرکت یک خانه مستقیم<br>زدن مورب<br>ارتقا به فرزین"
+               }
             };
 
-            return info[piece.type];
+            return info[piece.type][LANG];
          }
 
          function deepCopyBoard(board) {
@@ -715,14 +847,23 @@
             bgmEnabled = !bgmEnabled;
 
             if (bgmEnabled) {
-               musicBtn.textContent = "🎵 Music";
                BGM.play().catch(() => { });
             } else {
-               musicBtn.textContent = "🔇 Music";
                BGM.pause();
             }
+
+            updateMusicButton();
          }
 
+         function updateMusicButton() {
+            if (!musicBtn) return;
+
+            const T = I18N[LANG];
+
+            musicBtn.textContent = bgmEnabled
+               ? `🎵 ${T.musicOn}`
+               : `🔇 ${T.musicOff}`;
+         }
 
          function clickSquare(r, c) {
             const piece = board[r][c];
@@ -1219,10 +1360,10 @@
             el.classList.remove("blue", "red");
 
             if (turn === "blue") {
-               el.textContent = "LƯỢT XANH";
+               el.textContent = I18N[LANG].turnBlue;
                el.classList.add("blue");
             } else {
-               el.textContent = "LƯỢT ĐỎ";
+               el.textContent = I18N[LANG].turnRed;
                el.classList.add("red");
             }
          }
@@ -1256,7 +1397,7 @@
          }
 
 
-
+         applyLanguage();
          draw();
          updateTurnIndicator();
       </script>
