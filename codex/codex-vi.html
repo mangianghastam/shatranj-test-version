@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+   <meta charset="UTF-8" />
+   <title>Codex of Shatranj</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <style>
+      body {
+         margin: 0;
+         min-height: 100vh;
+         background: radial-gradient(circle at top, #1c1c1c, #0e0e0e);
+         color: #e0e0e0;
+         font-family: "Cinzel", system-ui, serif;
+         line-height: 1.7;
+      }
+
+      a {
+         color: #d4af37;
+         text-decoration: none;
+      }
+
+      a:hover {
+         text-decoration: underline;
+      }
+
+      .container {
+         max-width: 900px;
+         margin: 0 auto;
+         padding: 48px 24px 80px;
+      }
+
+      h1 {
+         text-align: center;
+         font-size: 48px;
+         letter-spacing: 6px;
+         margin-bottom: 16px;
+      }
+
+      .subtitle {
+         text-align: center;
+         font-size: 16px;
+         opacity: 0.8;
+         margin-bottom: 48px;
+      }
+
+      section {
+         margin-bottom: 56px;
+      }
+
+      h2 {
+         font-size: 28px;
+         letter-spacing: 3px;
+         margin-bottom: 16px;
+         color: #f0d070;
+      }
+
+      p {
+         font-size: 16px;
+         opacity: 0.95;
+      }
+
+      .rule {
+         background: #151515;
+         border-left: 4px solid #bfa24a;
+         padding: 16px 20px;
+         margin: 16px 0;
+         border-radius: 6px;
+         box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+      }
+
+      .pieces {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+         gap: 20px;
+         margin-top: 24px;
+      }
+
+      .piece {
+         background: #151515;
+         border: 1px solid #333;
+         border-radius: 10px;
+         padding: 16px;
+         box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
+      }
+
+      .piece h3 {
+         margin: 0 0 8px;
+         font-size: 20px;
+         color: #ffd966;
+         letter-spacing: 2px;
+      }
+
+      .piece span {
+         font-size: 14px;
+         opacity: 0.8;
+      }
+
+      .back {
+         text-align: center;
+         margin-top: 64px;
+      }
+
+      .back a {
+         display: inline-block;
+         padding: 12px 24px;
+         border-radius: 10px;
+         background: linear-gradient(145deg, #2b2b2b, #1a1a1a);
+         border: 1px solid #555;
+         letter-spacing: 2px;
+         box-shadow:
+            inset 0 0 8px rgba(255, 255, 255, 0.05),
+            0 6px 14px rgba(0, 0, 0, 0.8);
+      }
+
+      .back a:hover {
+         transform: translateY(-2px);
+      }
+
+      section .img {
+         align-items: center;
+         text-align: center;
+      }
+
+      section .img p {
+         font-weight: lighter;
+         font-size: 12px;
+      }
+
+      .lang-switch {
+         position: fixed;
+         top: 16px;
+         right: 20px;
+         display: flex;
+         gap: 8px;
+         z-index: 1000;
+      }
+
+      .lang-switch a {
+         font-size: 12px;
+         padding: 6px 10px;
+         border: 1px solid #555;
+         border-radius: 6px;
+         background: #111;
+         color: #d4af37;
+         letter-spacing: 1px;
+         opacity: 0.8;
+      }
+
+      .lang-switch a:hover {
+         opacity: 1;
+         background: #1a1a1a;
+         text-decoration: none;
+      }
+
+      .lang-switch a.active {
+         border-color: #f0d070;
+         color: #f0d070;
+         box-shadow: 0 0 6px rgba(240, 208, 112, 0.4);
+         pointer-events: none;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="lang-switch">
+      <a href="codex-vi.html" class="active">VI</a>
+      <a href="codex-en.html">EN</a>
+      <a href="codex-fa.html">FA</a>
+   </div>
+   <div class="container">
+
+      <div class="back">
+         <a href="/index.html">← Trở về bàn cờ</a>
+      </div>
+
+      <h1>CODEX</h1>
+      <div class="subtitle">
+         The Ancient Book of Shatranj
+      </div>
+
+      <q style="font-style: italic;">Shatranj dành cho người yêu sự kiên nhẫn, cấu trúc và tàn cuộc.
+         Nếu bạn tìm kiếm những đòn đánh chớp nhoáng, đây không phải trò chơi dành cho bạn.</q><br><br>
+      <q style="font-style: italic;">Vua hiếm khi bị giết. Hắn bị bỏ lại!</q>
+
+      <section>
+         <h2>Shatranj là gì?</h2>
+         <p>
+            Shatranj, tiếng Ba Tư trung đại thời Sasan là chatrang, là tiền thân trực tiếp của cờ vua hiện
+            đại, bắt nguồn từ chaturanga của Ấn Độ và được định hình, hệ
+            thống hóa tại Iran dưới triều đại Sasan, đặc biệt vào thời Khosrow I Anushirvan (thế kỷ VI).
+         </p>
+         <p>
+            Trong tay người Ba Tư, shatranj không còn đơn thuần là mô phỏng chiến tranh. Nó trở thành một hệ thống tư
+            duy chiến lược, nơi trật tự được đặt cao hơn tốc độ, và suy xét dài hạn quan trọng hơn những đòn đánh phô
+            trương.
+         </p>
+         <div class="img">
+            <img src="/image/codex/anh1.jpg" alt="">
+            <p>Hai người chơi shatranj trong một chi tiết từ bức tranh thu nhỏ Ba Tư của Baysunghur Shahnameh được
+               thực hiện vào năm 1430.</p>
+         </div>
+         <p>
+            Shatranj không khuyến khích lối chơi tấn công dồn dập hay hy sinh liên hoàn. Mỗi quân cờ đều yếu, di chuyển
+            chậm, và vì thế mỗi nước đi đều mang trọng lượng lớn. Một sai lầm hiếm khi dẫn đến thất bại ngay lập tức,
+            nhưng nó để lại dư chấn kéo dài, dần dần làm sụp đổ toàn bộ thế trận.
+         </p>
+         <p>
+            Đây là cờ của kiên nhẫn và kỷ luật. Người chơi không thắng bằng sự bùng nổ, mà bằng khả năng kiểm soát không
+            gian, duy trì cấu trúc, và cô lập đối phương cho đến khi họ không còn nước đi hợp lệ. Shāh māt – chiếu bí –
+            không phải là cú kết liễu nhanh, mà là trạng thái bất lực tuyệt đối của nhà vua.
+         </p>
+         <p>
+            Nếu cờ vua hiện đại tôn vinh tốc độ và đòn quyết định, thì shatranj mời người chơi bước chậm lại, suy nghĩ
+            sâu hơn, và chấp nhận rằng quyền lực suy tàn không vì bị đánh gục, mà vì bị tách khỏi hệ thống nâng đỡ nó.
+         </p>
+         <p>
+            Chơi shatranj là chơi với thời gian.
+            Và thời gian, trong trò chơi này, luôn đứng về phía kẻ biết chờ đợi.
+         </p>
+      </section>
+
+
+      <section>
+         <h2>Lịch sử Shatranj</h2>
+
+         <p>Shatranj không chỉ là tiền thân trực tiếp của cờ vua hiện đại, mà còn là một phần của mạng lưới lịch sử rộng
+            lớn các trò
+            chơi cờ ở châu Á. Từ chaturanga Ấn Độ, các biến thể cờ phát triển theo nhiều hướng khác nhau: shatranj tại
+            Iran
+            và thế giới Hồi giáo, các dạng cờ ở Đông Nam Á, và các hệ thống cờ riêng biệt tại Đông Á. Mỗi nhánh mang dấu
+            ấn
+            văn hóa riêng, nhưng đều chia sẻ một cội nguồn chiến lược chung.</p>
+
+         <p>Shatranj có nguồn gốc từ chaturanga của Ấn Độ cổ đại, một trò chơi mô phỏng bốn binh chủng của chiến tranh:
+            bộ
+            binh, kỵ binh, chiến xa và tượng binh. Khoảng thế kỷ VI, trò chơi này được truyền vào Iran và nhanh chóng
+            được
+            tiếp nhận, cải biến trong bối cảnh văn hóa – chính trị của đế chế Sasan.</p>
+         <div class="img">
+            <img src="/image/codex/anh2.jpg" alt="">
+            <p>Bản thảo tiếng Ba Tư từ thế kỷ 14 mô tả việc một sứ giả từ Ấn Độ mang cờ vua đến triều đình Ba Tư.</p>
+            <img src="/image/codex/anh3.jpg" alt="">
+            <p>Đại sứ Ấn Độ, có lẽ được phái bởi Vua Maukhari Śarvavarman của Kannauj , giới thiệu cờ vua cho triều đình
+               Ba Tư của Khosrow I.</p>
+         </div>
+
+         <p>Theo truyền thống Ba Tư, shatranj được giới thiệu tại triều đình của Khosrow I Anushirvan – vị quân vương
+            nổi
+            tiếng với cải cách hành chính, pháp luật và tư duy lý tính. Tại đây, trò chơi không chỉ được chơi để giải
+            trí,
+            mà còn được nhìn nhận như một mô hình tư duy chiến lược và trị quốc. Các luật lệ được chuẩn hóa, tên gọi
+            quân
+            cờ được Ba Tư hóa, và shatranj dần mang hình hài riêng biệt, khác với chaturanga nguyên thủy.</p>
+
+         <div class="img">
+            <img src="/image/codex/anh4.jpg" alt="">
+            <p>Shatranj thời kỳ đầu</p>
+         </div>
+
+         <p>Từ Iran, shatranj lan rộng khắp thế giới Hồi giáo sau thế kỷ VII. Người Ả Rập tiếp nhận trò chơi này gần như
+            nguyên vẹn từ truyền thống Ba Tư, giữ lại thuật ngữ shāh, farzīn, rukh, pīl. Trong suốt nhiều thế kỷ,
+            shatranj
+            trở thành một trò chơi trí tuệ cao cấp, gắn liền với học giả, quan lại và tầng lớp tinh hoa. Các tuyển tập
+            bài
+            thế, khai cuộc và tàn cuộc được ghi chép cẩn thận, đặt nền móng cho lý thuyết cờ sau này.</p>
+
+         <div class="img">
+            <img src="/image/codex/anh5.jpg" alt="">
+            <p>Bộ quân gốm Shatranj của Iran , gốm tráng men frit , khoảng thế kỷ 12 ở Nishapur</p>
+         </div>
+
+         <p>Tại Iran và thế giới Hồi giáo, shatranj mang một ý nghĩa văn hóa vượt xa phạm vi của một trò chơi. Nó được
+            xem
+            như một hình thức rèn luyện trí tuệ và phẩm chất cá nhân, gắn liền với tư duy lý tính, sự kiềm chế và khả
+            năng
+            suy xét dài hạn. Trong giới học giả và quan lại, shatranj thường được dùng như một ẩn dụ cho trật tự xã hội
+            và
+            quyền lực chính trị: nhà vua đứng ở trung tâm nhưng bị giới hạn bởi luật lệ, các quân mạnh bị ràng buộc
+            trong
+            cấu trúc chung, còn binh tốt tuy yếu ớt nhưng giữ vai trò quyết định về lâu dài. Những hình ảnh này xuất
+            hiện
+            thường xuyên trong văn học, đạo đức học và các trước tác chính trị của thế giới Hồi giáo trung đại.</p>
+
+         <div class="img">
+            <img src="/image/codex/anh6.jpg" alt="">
+            <p>Hình ảnh Shams-e-Tabrīzī được khắc họa trong một bức tranh năm 1500 trên một trang của bản sao bài thơ
+               của Rumi dành tặng cho Shams.</p>
+         </div>
+
+         <p>Chính từ không gian văn hóa Hồi giáo trung đại, shatranj bắt đầu tiến vào châu Âu từ khoảng thế kỷ X qua
+            nhiều
+            con đường song song. Tại bán đảo Iberia, nơi Al-Andalus trở thành trung tâm giao thoa giữa Hồi giáo, Do Thái
+            và
+            Kitô giáo, shatranj được truyền vào các triều đình và giới học giả châu Âu thông qua tiếp xúc trực tiếp với
+            văn
+            hóa Ả Rập–Ba Tư. Ở Sicilia và miền nam Ý, quá trình này diễn ra dưới ảnh hưởng của các triều đại Hồi giáo và
+            sau đó là Norman, nơi shatranj được tiếp nhận như một phần của tri thức phương Đông hơn là một trò chơi
+            thuần
+            túy. Các cuộc Thập tự chinh cũng góp phần mở rộng sự tiếp xúc, đưa trò chơi này theo bước chân hiệp sĩ và
+            giáo
+            sĩ trở về Tây Âu.</p>
+
+         <div class="img">
+            <img src="/image/codex/anh7.jpg" alt="">
+            <p>Cờ vua được truyền bá vào châu Âu từ những người Hồi giáo</p>
+         </div>
+
+         <p>Khi bước vào châu Âu trung đại, shatranj dần được tái diễn giải trong một bối cảnh xã hội và tư duy hoàn
+            toàn
+            khác. Nếu trong truyền thống Ba Tư–Hồi giáo, shatranj gắn liền với sự suy tưởng, trật tự và kiềm chế, thì
+            tại
+            châu Âu phong kiến, nó nhanh chóng được nhìn nhận như một hình ảnh thu nhỏ của chiến tranh và quyền lực lãnh
+            chúa. Các quân cờ được đồng nhất với tầng lớp xã hội phong kiến: vua, hoàng hậu, giáo sĩ, hiệp sĩ và thành
+            quách. Từ đây, nhu cầu về những ván cờ quyết liệt hơn, mang tính đối đầu trực diện hơn, bắt đầu thúc đẩy sự
+            biến đổi của luật chơi.</p>
+
+         <div class="img">
+            <img src="/image/codex/anh8.jpg" alt="">
+            <p>Quân cờ và luật chơi ở châu Âu dần bị thay đổi về vị trí, vai trò và nước đi</p>
+         </div>
+
+         <p>Trong khoảng thế kỷ XIII–XV, các thay đổi mang tính quyết định dần hình thành. Quân farzīn yếu ớt của
+            shatranj
+            được biến đổi thành hoàng hậu với sức mạnh vượt trội, phản ánh vai trò ngày càng nổi bật của quyền lực hoàng
+            gia trung ương trong các vương quốc châu Âu. Quân fīl được tái diễn giải thành giám mục, với cách di chuyển
+            mới
+            phù hợp hơn với biểu tượng tôn giáo phương Tây. Nhịp độ ván cờ được đẩy nhanh, khả năng tấn công được đề
+            cao,
+            và khái niệm chiến thuật ngắn hạn dần chiếm vị trí trung tâm, thay thế cho lối chơi trường kỳ và khắc nghiệt
+            của shatranj cổ.</p>
+
+         <p>Đến cuối thế kỷ XV, quá trình biến đổi này đạt đến sự ổn định tương đối, hình thành nên cờ vua hiện đại. Tuy
+            vẫn giữ lại cấu trúc bàn cờ và nhiều khái niệm cơ bản của shatranj, cờ vua châu Âu đã trở thành một trò chơi
+            khác về tinh thần: nhanh hơn, bạo liệt hơn, và đặt nặng tính quyết định tức thời. Trong hình hài mới ấy, dấu
+            vết của shatranj vẫn tồn tại như một lớp nền sâu kín — một ký ức về thời kỳ mà cờ không chỉ là chiến đấu, mà
+            còn là suy tư về trật tự, quyền lực và sự hữu hạn của con người trước thời gian.</p>
+         <div class="img">
+            <img src="/image/codex/anh9.jpg" alt="">
+            <p>Một ván cờ vua hiện đại</p>
+         </div>
+      </section>
+      <section>
+         <h2>Luật chơi Shatranj</h2>
+
+         <p> Shatranj được chơi trên bàn cờ 8×8, với hai bên đối đầu. Mục tiêu của trò chơi không phải chỉ là bắt
+            vua, mà là đưa đối phương vào trạng thái shāh māt – khi vua bị đe dọa và không còn bất kỳ nước đi hợp lệ nào
+            để
+            thoát, hoặc để cho vua đối phương chỉ còn đơn độc.</p>
+
+         Mỗi bên bắt đầu với 16 quân, gồm: Shāh (Vua), Farzīn (Tể tướng), Rukh (Xe), Pīl (Tượng), Faras /Asb (Mã) và
+         Baidaq / Sarbaz / Piyadeh
+         (Tốt). Tuy
+         hình thức tương tự cờ vua hiện đại, sức mạnh và cách di chuyển của các quân cờ trong shatranj bị giới hạn hơn,
+         khiến nhịp chơi trở nên chậm rãi và thiên về chiến lược dài hạn. <br><br>
+
+         <h4>Di chuyển của các quân cờ</h4>
+
+         Shāh (Vua): đi mỗi lượt một ô theo mọi hướng, tương tự vua trong cờ vua hiện đại, tuy nhiên không có nhập
+         thành. <br><br>
+
+         Farzīn (Tể tướng): chỉ đi chéo một ô mỗi lượt, là quân yếu nhất trên bàn cờ. <br><br>
+
+         Rukh (Xe): đi ngang hoặc dọc không giới hạn số ô, là quân mạnh nhất trong shatranj. <br><br>
+
+         Pīl (Tượng): đi chéo đúng hai ô, có thể nhảy qua quân khác, nhưng chỉ kiểm soát một số ô nhất định trên bàn cờ.
+         <br><br>
+
+         Faras / Asb (Mã): đi theo hình chữ L (2 ô + 1 ô), có thể nhảy qua quân cờ khác. <br><br>
+
+         Baidaq / Sarbaz / Piyadeh (Tốt): đi thẳng một ô mỗi lượt, bắt quân chéo một ô. Binh không có nước đi hai ô đầu,
+         không có en
+         passant (Bắt tốt qua đường). <br><br>
+
+         <h4>Phong cấp</h4>
+
+         Khi binh tiến đến hàng cuối cùng, nó chỉ được phong thành Farzīn, không có lựa chọn khác. Điều này khiến tàn
+         cuộc của shatranj đặc biệt dài và khắc nghiệt, đòi hỏi người chơi phải tích lũy lợi thế từ rất sớm.
+         <br><br><br>
+
+         <p><b>Ván cờ kết thúc khi:</b></p>
+
+         <p>Chiến thắng khi</p>
+
+         <p>Shāh māt: vua bị chiếu và không thể thoát.</p>
+
+         Zindān (Ngục tù) (Patt): đối phương không còn nước đi hợp lệ nhưng vua không bị chiếu (trong nhiều truyền thống
+         cổ, patt
+         được tính
+         là thắng cho bên không bị kẹt). <br><br>
+
+         Shāh Tanhā (Vua đơn độc): trong một số luật cổ, nếu một bên chỉ còn vua và đối phương không thể chiếu ngay, ván
+         cờ được xem
+         là kết thúc. <br>
+
+         <p>Hòa khi</p>
+         <p>Hai vua cùng tồn tại: Nếu sau khi các quân khác bị loại bỏ, cả hai bên chỉ còn lại vua, ván cờ được xem là
+            hòa.
+            Trong shatranj, hai vị vua không thể tự mình tạo ra thế chiếu hợp lệ, và trạng thái này được coi là sự cân
+            bằng
+            tuyệt đối, không bên nào có thể buộc bên kia chịu shāh māt. Trong một số truyền thống thì zindān cũng được
+            tính
+            là hòa</p>
+
+         <h2>Tinh thần của Shatranj</h2>
+
+         Luật chơi shatranj không khuyến khích tấn công sớm hay hy sinh dồn dập. Với các quân cờ yếu và phong cấp hạn
+         chế, mỗi nước đi đều mang tính tích lũy, và sai lầm hiếm khi có thể sửa chữa nhanh chóng. Người chơi thắng
+         không phải nhờ đòn quyết định, mà nhờ khả năng duy trì cấu trúc, cô lập vua đối phương và kiểm soát thế trận
+         theo thời gian.
+
+         Chơi shatranj là chấp nhận một nhịp chơi chậm hơn, nơi chiến thắng không đến từ sự bùng nổ, mà từ sự bền bỉ của
+         tư duy.
+
+         <p>Nói cách khác:</p>
+         <p>
+            Đây không phải là trò chơi để nghiền nát đối thủ,
+            mà là trò chơi để nhìn thấy sự bất lực dần dần của quyền lực.
+         </p>
+         <p>
+            Vua hiếm khi bị giết.
+            <b>Hắn bị bỏ lại</b>!
+         </p>
+      </section>
+      <h2>Tóm tắt lại các quân cờ</h2>
+
+      <div class="pieces">
+         <div class="piece">
+            <h3>Shāh</h3>
+            <span>
+               Vua — đi 1 ô theo mọi hướng.<br>
+               Shāh không bao giờ được phép tự đưa mình vào chiếu.
+               Không có nhập thành như cờ vua.
+            </span>
+         </div>
+
+         <div class="piece">
+            <h3>Farzīn</h3>
+            <span>
+               Tể tướng — đi chéo đúng 1 ô.<br>
+               Là quân yếu, tượng trưng cho quyền lực bị giới hạn.
+            </span>
+         </div>
+
+         <div class="piece">
+            <h3>Rukh</h3>
+            <span>
+               Xe — đi thẳng theo hàng hoặc cột, không giới hạn.<br>
+               Là quân mạnh nhất trên bàn cờ.
+            </span>
+         </div>
+
+         <div class="piece">
+            <h3>Faras / Asb</h3>
+            <span>
+               Mã — đi theo hình chữ L, có thể nhảy qua quân khác.
+            </span>
+         </div>
+
+         <div class="piece">
+            <h3>Fīl</h3>
+            <span>
+               Tượng — nhảy chéo đúng 2 ô, không bị cản.<br>
+               Luôn bị giới hạn màu ô.
+            </span>
+         </div>
+
+         <div class="piece">
+            <h3>Baidaq / Sarbaz / Piyadeh</h3>
+            <span>
+               Tốt — đi thẳng 1 ô, ăn chéo 1 ô.<br>
+               Không có nước đi hai ô, không có en passant (bắt tốt qua đường).<br>
+               Khi tới cuối bàn, phong thành Farzīn.
+            </span>
+         </div>
+      </div>
+      </section>
+
+      <section>
+         <h2>Một số thuật ngữ quan trọng</h2>
+
+         <div class="rule">
+            <strong>Shāh</strong> — Vua bị chiếu.
+         </div>
+
+         <div class="rule">
+            <strong>Shāh Māt</strong> — Vua không thể thoát chiếu.
+         </div>
+
+         <div class="rule">
+            <strong>Shāh Tanhā</strong> — Vua đơn độc. Được đi một nước cuối.
+         </div>
+
+         <div class="rule">
+            <strong>Zindān</strong> — Hết nước đi. Bị xử thua.
+         </div>
+
+         <div class="rule">
+            <strong>Do Shāh</strong> — Chỉ còn hai vua. Hòa.
+         </div>
+      </section>
+      <section>
+         <h2>Nguồn tham khảo</h2>
+         <div class="rule">
+            <strong>Karnamak-i-Artakhshatr-i-Papakan </strong>
+         </div>
+         <div class="rule">
+            <strong>Wizārišn ī čhatrang của Bozorgmehr </strong>
+         </div>
+         <div class="rule">
+            <strong>Kitab ash-shatranj</strong>
+         </div>
+         <div class="rule">
+            <strong>Latif fi 'sh-shatranj</strong>
+         </div>
+         <div class="rule">
+            <strong>Kitab ash-shatranj</strong>
+         </div>
+         <div class="rule">
+            <strong>Kitab mansubat ash-shatranj</strong>
+         </div>
+         <div class="rule">
+            <strong>Kitab majmu' fi mansubat ash-shatranj</strong>
+         </div>
+      </section>
+      <section>
+         <h2>Những người chơi nổi bật</h2>
+         <div class="rule">Jabir al-Kufi</div>
+         <div class="rule">Rabrab </div>
+         <div class="rule">Abun-Naam</div>
+         <div class="rule">Al-Adli al-Rumi</div>
+         <div class="rule">Abū Bakr al-Rāzī</div>
+         <div class="rule">Abu Bakr bin Yahya al-Suli</div>
+         <div class="rule">Al-Lajlaj</div>
+      </section>
+
+      <div class="back">
+         <a href="index.html">← Trở về bàn cờ</a>
+      </div>
+
+   </div>
+</body>
+
+</html>

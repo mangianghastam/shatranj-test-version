@@ -128,11 +128,47 @@
          font-size: 12px;
       }
 
-      
+      .lang-switch {
+         position: fixed;
+         top: 16px;
+         right: 20px;
+         display: flex;
+         gap: 8px;
+         z-index: 1000;
+      }
+
+      .lang-switch a {
+         font-size: 12px;
+         padding: 6px 10px;
+         border: 1px solid #555;
+         border-radius: 6px;
+         background: #111;
+         color: #d4af37;
+         letter-spacing: 1px;
+         opacity: 0.8;
+      }
+
+      .lang-switch a:hover {
+         opacity: 1;
+         background: #1a1a1a;
+         text-decoration: none;
+      }
+
+      .lang-switch a.active {
+         border-color: #f0d070;
+         color: #f0d070;
+         box-shadow: 0 0 6px rgba(240, 208, 112, 0.4);
+         pointer-events: none;
+      }
    </style>
 </head>
 
 <body>
+   <div class="lang-switch">
+      <a href="codex-vi.html" >VI</a>
+      <a href="codex-en.html">EN</a>
+      <a href="codex-fa.html" class="active">FA</a>
+   </div>
    <div class="container">
 
       <div class="back">
@@ -161,7 +197,7 @@
             trương.
          </p>
          <div class="img">
-            <img src="image/codex/anh1.jpg" alt="">
+            <img src="./image/codex/anh1.jpg" alt="">
             <p>Hai người chơi shatranj trong một chi tiết từ bức tranh thu nhỏ Ba Tư của Baysunghur Shahnameh được
                thực hiện vào năm 1430.</p>
          </div>
@@ -359,10 +395,13 @@
          là kết thúc. <br>
 
          <p>Hòa khi</p>
-         <p>Hai vua cùng tồn tại: Nếu sau khi các quân khác bị loại bỏ, cả hai bên chỉ còn lại vua, ván cờ được xem là hòa.
-         Trong shatranj, hai vị vua không thể tự mình tạo ra thế chiếu hợp lệ, và trạng thái này được coi là sự cân bằng
-         tuyệt đối, không bên nào có thể buộc bên kia chịu shāh māt. Trong một số truyền thống thì zindān cũng được tính
-         là hòa</p>
+         <p>Hai vua cùng tồn tại: Nếu sau khi các quân khác bị loại bỏ, cả hai bên chỉ còn lại vua, ván cờ được xem là
+            hòa.
+            Trong shatranj, hai vị vua không thể tự mình tạo ra thế chiếu hợp lệ, và trạng thái này được coi là sự cân
+            bằng
+            tuyệt đối, không bên nào có thể buộc bên kia chịu shāh māt. Trong một số truyền thống thì zindān cũng được
+            tính
+            là hòa</p>
 
          <h2>Tinh thần của Shatranj</h2>
 

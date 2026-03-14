@@ -292,7 +292,7 @@
          border-radius: 6px;
          padding: 6px 8px;
 
-         font-size: 13px;
+         font-size: 12px;
          line-height: 1.4;
          white-space: nowrap;
 
@@ -508,7 +508,7 @@
          }
 
          #endgame span {
-            font-size: 20px;
+            font-size: 24px;
             text-align: center;
          }
 
@@ -520,6 +520,32 @@
             margin-bottom: auto;
          }
       }
+
+      /* Hiệu ứng nhấp nháy cho chữ */
+      #aiThinking {
+         animation: blink 1.5s infinite;
+      }
+
+      @keyframes blink {
+         0% {
+            opacity: 0.3;
+         }
+
+         50% {
+            opacity: 1;
+         }
+
+         100% {
+            opacity: 0.3;
+         }
+      }
+
+      /* Hiệu ứng phát sáng cho bảng cờ khi AI tập trung */
+      #board.thinking-active {
+         box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+         border-color: #ff4d4d;
+         transition: all 0.5s ease;
+      }
    </style>
 </head>
 
@@ -529,7 +555,7 @@
          <div id="shahAlert">SHĀH!</div>
 
          <div id="controls">
-            <button class="control-btn" onclick="location.href='codex.html'">
+            <button class="control-btn" onclick="location.href='codex/codex-vi.html'">
                📜 Codex
             </button>
             <button class="control-btn" onclick="undo()">⟲ Undo</button>
@@ -568,6 +594,10 @@
       <div id="right-panel">
 
          <div id="turnIndicator" class="blue">LƯỢT XANH</div>
+         <div id="aiThinking"
+            style="display: none; color: #ff4d4d; font-style: italic; text-align: center; margin-top: -120px; font-family: 'Cinzel', serif; letter-spacing: 2px;">
+            Thinking...
+         </div>
 
 
          <div id="history">
@@ -616,6 +646,72 @@
             ...Array.from({ length: 4 }, () => Array(8).fill(null)),
             Array(8).fill(null).map(() => B("baidaq")),
             [B("rukh"), B("faras"), B("fil"), B("farzin"), B("shah"), B("fil"), B("faras"), B("rukh")]
+         ];
+
+         const PIECE_VALUES = Object.freeze({
+            shah: 10000,
+            farzin: 30,
+            rukh: 50,
+            faras: 40,
+            fil: 20,
+            baidaq: 10
+         });
+         // Để tương thích với code hiện tại của bạn, hãy dùng tên 'value'
+         const value = PIECE_VALUES;
+
+         const CENTER_BONUS = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 5, 5, 5, 5, 5, 5, 0],
+            [0, 5, 10, 10, 10, 10, 5, 0],
+            [0, 5, 10, 20, 20, 10, 5, 0],
+            [0, 5, 10, 20, 20, 10, 5, 0],
+            [0, 5, 10, 10, 10, 10, 5, 0],
+            [0, 5, 5, 5, 5, 5, 5, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]
+         ];
+
+         const TABIYA_LIBRARY = {
+            // Masha'ikhi: Vững chãi, phù hợp thủ phản công
+            mashaikhi: [
+               { type: "baidaq", tr: 2, tc: 3 }, { type: "baidaq", tr: 2, tc: 4 },
+               { type: "faras", tr: 2, tc: 2 }, { type: "faras", tr: 2, tc: 5 }
+            ],
+            // Mujannah: Tấn công cánh, linh hoạt cho Xe và Mã
+            mujannah: [
+               { type: "baidaq", tr: 3, tc: 3 }, { type: "baidaq", tr: 3, tc: 4 },
+               { type: "rukh", tr: 0, tc: 2 }, { type: "rukh", tr: 0, tc: 5 }
+            ],
+            // Sayyal: Tấn công trung tâm mạnh mẽ
+            sayyal: [
+               { type: "baidaq", tr: 3, tc: 3 }, { type: "baidaq", tr: 3, tc: 4 },
+               { type: "farzin", tr: 1, tc: 4 }, { type: "baidaq", tr: 4, tc: 3 }
+            ]
+         };
+
+         // Chọn ngẫu nhiên một chiến thuật khi bắt đầu ván mới
+         let currentStrategy = Object.keys(TABIYA_LIBRARY)[Math.floor(Math.random() * Object.keys(TABIYA_LIBRARY).length)];
+
+         const BAIDAQ_BONUS = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [5, 10, 15, 20, 20, 15, 10, 5], // Hàng 3 (ưu tiên dàn hàng ngang)
+            [10, 20, 30, 40, 40, 30, 20, 10], // Hàng 4 (chiếm trung tâm bằng tốt)
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]
+         ];
+
+         // Thêm bảng điểm cho Xe (Rukh) - ưu tiên ở hàng thủ hoặc cột mở
+         const RUKH_BONUS = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [5, 5, 5, 5, 5, 5, 5, 5],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]
          ];
 
          const INITIAL_BOARD = deepCopyBoard(board);
@@ -753,7 +849,7 @@
                shah: {
                   vi: "Shāh (Vua)<br>Đi 1 ô mọi hướng<br>Bị chiếu không được bỏ qua",
                   en: "Shāh (King)<br>Moves 1 square in any direction<br>Cannot ignore check",
-                  fa: "شاه (Shāh)<br>حرکت یک خانه در همه جهت‌ها<br>نمی‌تواند کیش را نادیده بگیرد"
+                  fa: "شاه <br>حرکت یک خانه در همه جهت‌ها<br>نمی‌تواند کیش را نادیده بگیرد"
                },
                farzin: {
                   vi: "Farzīn (Tể tướng)<br>Đi chéo 1 ô",
@@ -767,18 +863,18 @@
                },
                faras: {
                   vi: "Faras / Asb (Mã)<br>Đi chữ L<br>Không bị cản",
-                  en: "Faras (Horse)<br>L-shaped move<br>Can jump over pieces",
+                  en: "Faras / Asb (Horse)<br>L-shaped move<br>Can jump over pieces",
                   fa: "فرس / اسب (اسب)<br>حرکت L شکل<br>از روی مهره‌ها می‌پرد"
                },
                fil: {
                   vi: "Pīl (Tượng)<br>Đi chéo đúng 2 ô<br>Không bị cản",
                   en: "Fīl (Elephant)<br>Moves exactly 2 squares diagonally<br>Cannot be blocked",
-                  fa: "فیل (Pīl)<br>حرکت دقیقاً دو خانه مورب<br>غیرقابل سد"
+                  fa: "فیل <br>حرکت دقیقاً دو خانه مورب<br>غیرقابل سد"
                },
                baidaq: {
-                  vi: "Baidaq (Tốt)<br>Đi thẳng 1 ô<br>Ăn chéo 1 ô<br>Phong Farzīn",
-                  en: "Baidaq (Pawn)<br>Moves 1 square forward<br>Captures diagonally<br>Promotes to Farzīn",
-                  fa: "بیدق (سرباز)<br>حرکت یک خانه مستقیم<br>زدن مورب<br>ارتقا به فرزین"
+                  vi: "Baidaq / Sarbaz / Piyādeh (Tốt)<br>Đi thẳng 1 ô<br>Ăn chéo 1 ô<br>Phong Farzīn",
+                  en: "Baidaq / Sarbaz / Piyādeh (Pawn)<br>Moves 1 square forward<br>Captures diagonally<br>Promotes to Farzīn",
+                  fa: "پیاده / بیدق / سرباز<br>حرکت یک خانه مستقیم<br>زدن مورب<br>ارتقا به فرزین"
                }
             };
 
@@ -828,6 +924,10 @@
             history = [];
             historyIndex = -1;
             moveLog = [];
+
+            currentStrategy = Object.keys(TABIYA_LIBRARY)[Math.floor(Math.random() * 3)];
+            console.log("Bot chọn chiến thuật:", currentStrategy);
+
             updateHistory();
             updateTurnIndicator();
 
@@ -855,20 +955,13 @@
             updateMusicButton();
          }
 
-         function updateMusicButton() {
-            if (!musicBtn) return;
 
-            const T = I18N[LANG];
-
-            musicBtn.textContent = bgmEnabled
-               ? `🎵 ${T.musicOn}`
-               : `🔇 ${T.musicOff}`;
-         }
 
          function clickSquare(r, c) {
-            const piece = board[r][c];
-            if (gameOver) return;
+            if (gameOver || turn === "red") return; // Chặn người chơi bấm khi đang lượt Bot
+
             if (!selected) {
+               const piece = board[r][c];
                if (piece && piece.color === turn) {
                   clearHighlights();
                   selected = { r, c };
@@ -879,10 +972,21 @@
             } else {
                if (isLegalMove(selected.r, selected.c, r, c)) {
                   move(selected.r, selected.c, r, c);
+                  selected = null;
+                  clearHighlights();
+                  draw();
+
+                  // Sửa đoạn gọi máy:
+                  if (!gameOver && turn === "red") {
+                     setTimeout(() => {
+                        botMove().catch(err => console.error("Lỗi AI:", err));
+                     }, 50);
+                  }
+               } else {
+                  selected = null;
+                  clearHighlights();
+                  draw();
                }
-               selected = null;
-               clearHighlights();
-               draw();
             }
          }
 
@@ -976,15 +1080,15 @@
                draw();
                return;
             }
+            // Chuyển lượt
             turn = enemy;
             updateTurnIndicator();
 
+            // Cập nhật giao diện
             const capture = target !== null;
-            moveLog.push(
-               shatranjNotation(piece, sr, sc, tr, tc, capture)
-            );
-
+            moveLog.push(shatranjNotation(piece, sr, sc, tr, tc, capture));
             updateHistory();
+            draw();
          }
 
 
@@ -1339,6 +1443,205 @@
             return pieces === 2 && kings === 2;
          }
 
+         //bot
+         function evaluateBoard() {
+            let score = 0;
+            const isEarlyGame = moveLog.length < 18;
+
+            for (let r = 0; r < 8; r++) {
+               for (let c = 0; c < 8; c++) {
+                  const p = board[r][c];
+                  if (!p) continue;
+
+                  let pieceValue = value[p.type];
+
+                  if (p.color === "red") {
+                     if (p.type === "baidaq") pieceValue += BAIDAQ_BONUS[r][c];
+                     else if (p.type === "rukh") pieceValue += RUKH_BONUS[r][c];
+                     else pieceValue += CENTER_BONUS[r][c];
+
+                     if (isEarlyGame) {
+                        // Điểm thưởng giảm dần từ 40 xuống 0 sau 20 nước đi để máy thoát ly khai cuộc
+                        const adaptiveBonus = Math.max(0, 40 - moveLog.length * 2);
+                        const strategy = TABIYA_LIBRARY[currentStrategy];
+
+                        if (strategy.some(pos => pos.type === p.type && pos.tr === r && pos.tc === c)) {
+                           // Chỉ thưởng điểm nếu ô này không bị quân Xanh của người chơi tấn công
+                           if (!isSquareAttackedBy(r, c, "blue")) {
+                              pieceValue += adaptiveBonus;
+                           }
+                        }
+                     }
+                     score += pieceValue;
+                  } else {
+                     // Điểm cho Người (Xanh) - Quan trọng để AI biết sợ đối thủ
+                     // Đảo ngược bảng điểm cho quân xanh (7-r)
+                     pieceValue += (p.type === "baidaq" ? BAIDAQ_BONUS[7 - r][c] : CENTER_BONUS[7 - r][c]);
+                     score -= pieceValue;
+                  }
+               }
+            }
+            return score;
+         }
+
+         function isSquareAttackedBy(r, c, attackerColor) {
+            for (let sr = 0; sr < 8; sr++) {
+               for (let sc = 0; sc < 8; sc++) {
+                  const p = board[sr][sc];
+                  if (p && p.color === attackerColor) {
+                     if (canAttack(sr, sc, r, c)) return true;
+                  }
+               }
+            }
+            return false;
+         }
+
+         function getAllMoves(color) {
+            const moves = [];
+            for (let sr = 0; sr < 8; sr++) {
+               for (let sc = 0; sc < 8; sc++) {
+                  const piece = board[sr][sc];
+                  if (!piece || piece.color !== color) continue;
+
+                  for (let tr = 0; tr < 8; tr++) {
+                     for (let tc = 0; tc < 8; tc++) {
+                        if (isLegalMove(sr, sc, tr, tc)) {
+                           // Tính điểm ưu tiên sơ bộ cho nước đi
+                           let weight = 0;
+                           if (board[tr][tc]) weight += 100; // Ưu tiên ăn quân
+                           weight += CENTER_BONUS[tr][tc];  // Ưu tiên chiếm trung tâm
+
+                           moves.push({ sr, sc, tr, tc, weight });
+                        }
+                     }
+                  }
+               }
+            }
+            // Thêm logic đánh giá sơ bộ để sắp xếp
+            moves.forEach(m => {
+               let weight = 0;
+               const target = board[m.tr][m.tc];
+               const currentPiece = board[m.sr][m.sc];
+
+               if (target) {
+                  // Dùng PIECE_VALUES thay vì value
+                  weight += 10 + (PIECE_VALUES[target.type] - PIECE_VALUES[currentPiece.type] / 10);
+               }
+               weight += CENTER_BONUS[m.tr][m.tc];
+               m.weight = weight;
+            });
+
+            return moves.sort((a, b) => b.weight - a.weight);
+         }
+
+         function minimax(depth, alpha, beta, maximizing) {
+            if (depth === 0 || gameOver) return evaluateBoard();
+
+            const color = maximizing ? "red" : "blue";
+            let moves = getAllMoves(color);
+
+            // Sửa đoạn sort này
+            moves.sort((a, b) => {
+               const targetA = board[a.tr][a.tc];
+               const targetB = board[b.tr][b.tc];
+               // Tính giá trị ưu tiên: Ưu tiên ăn quân có giá trị cao bằng quân có giá trị thấp
+               const scoreA = targetA ? (PIECE_VALUES[targetA.type] * 10) - PIECE_VALUES[board[a.sr][a.sc].type] : 0;
+               const scoreB = targetB ? (PIECE_VALUES[targetB.type] * 10) - PIECE_VALUES[board[b.sr][b.sc].type] : 0;
+               return scoreB - scoreA;
+            });
+
+            if (maximizing) {
+               let maxEval = -Infinity;
+               for (const m of moves) {
+                  const piece = board[m.sr][m.sc];
+                  const captured = board[m.tr][m.tc];
+                  board[m.tr][m.tc] = piece;
+                  board[m.sr][m.sc] = null;
+
+                  let eval = minimax(depth - 1, alpha, beta, false);
+
+                  board[m.sr][m.sc] = piece;
+                  board[m.tr][m.tc] = captured;
+
+                  maxEval = Math.max(maxEval, eval);
+                  alpha = Math.max(alpha, eval);
+                  if (beta <= alpha) break; // Cắt tỉa nhánh yếu
+               }
+               return maxEval;
+            } else {
+               let minEval = Infinity;
+               for (const m of moves) {
+                  const piece = board[m.sr][m.sc];
+                  const captured = board[m.tr][m.tc];
+                  board[m.tr][m.tc] = piece;
+                  board[m.sr][m.sc] = null;
+
+                  let eval = minimax(depth - 1, alpha, beta, true);
+
+                  board[m.sr][m.sc] = piece;
+                  board[m.tr][m.tc] = captured;
+
+                  minEval = Math.min(minEval, eval);
+                  beta = Math.min(beta, eval);
+                  if (beta <= alpha) break;
+               }
+               return minEval;
+            }
+         }
+
+         async function botMove() {
+               if (gameOver || turn !== "red") return;
+
+               // 1. BẬT hoạt ảnh
+               const thinkingEl = document.getElementById("aiThinking");
+               const boardContainer = document.getElementById("board");
+               if (thinkingEl) thinkingEl.style.display = "block";
+               if (boardContainer) boardContainer.classList.add("thinking-active");
+
+               const moves = getAllMoves("red");
+               let bestScore = -Infinity;
+               let bestMoves = [];
+
+               const startTime = performance.now();
+
+               for (let i = 0; i < moves.length; i++) {
+                  const m = moves[i];
+                  const piece = board[m.sr][m.sc];
+                  const captured = board[m.tr][m.tc];
+
+                  board[m.tr][m.tc] = piece;
+                  board[m.sr][m.sc] = null;
+
+                  // Độ sâu 5
+                  let score = minimax(5, -Infinity, Infinity, false);
+
+                  board[m.sr][m.sc] = piece;
+                  board[m.tr][m.tc] = captured;
+
+                  if (score > bestScore) {
+                     bestScore = score;
+                     bestMoves = [m];
+                  } else if (score === bestScore) {
+                     bestMoves.push(m);
+                  }
+
+                  // Cứ sau 60ms thì nhường luồng cho UI một lần để hoạt ảnh mượt
+                  if (performance.now() - startTime > 60) {
+                     // Reset mốc thời gian để tính lượt tiếp theo
+                     await new Promise(r => setTimeout(r, 0));
+                  }
+               }
+
+               // 2. TẮT hoạt ảnh trước khi thực hiện nước đi
+               if (thinkingEl) thinkingEl.style.display = "none";
+               if (boardContainer) boardContainer.classList.remove("thinking-active");
+
+               const finalMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
+               if (finalMove) {
+                  move(finalMove.sr, finalMove.sc, finalMove.tr, finalMove.tc);
+               }
+            }
+
          function shatranjNotation(piece, sr, sc, tr, tc, capture) {
             const file = "abcdefgh";
             const name = {
@@ -1395,6 +1698,18 @@
             s.volume = volume;
             s.play().catch(() => { });
          }
+
+         function updateMusicButton() {
+            if (!musicBtn) return;
+
+            const T = I18N[LANG];
+
+            musicBtn.textContent = bgmEnabled
+               ? `🎵 ${T.musicOn}`
+               : `🔇 ${T.musicOff}`;
+         }
+
+
 
 
          applyLanguage();
