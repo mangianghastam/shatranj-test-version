@@ -1612,8 +1612,8 @@
                   board[m.tr][m.tc] = piece;
                   board[m.sr][m.sc] = null;
 
-                  // Độ sâu 5
-                  let score = minimax(5, -Infinity, Infinity, false);
+                  // Độ sâu 6
+                  let score = minimax(6, -Infinity, Infinity, false);
 
                   board[m.sr][m.sc] = piece;
                   board[m.tr][m.tc] = captured;
